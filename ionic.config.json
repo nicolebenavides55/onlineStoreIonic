@@ -1,0 +1,7 @@
+{
+  "name": "onlineStoreIonic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
