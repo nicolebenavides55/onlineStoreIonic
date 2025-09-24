@@ -2,7 +2,11 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+  },
   {
     path: 'login',
     loadChildren: () => import('./auth/login/login.module').then(m => m.LoginPageModule)
@@ -13,19 +17,19 @@ const routes: Routes = [
   },
   {
     path: 'forgot-password',
-    loadChildren: () => import('./auth/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+    loadChildren: () => import('./auth/forgot-password/forgot-password.module').then(m => m.ForgotPasswordPageModule)
   },
   {
     path: 'list',
-    loadChildren: () => import('./products/list/list.module').then( m => m.ListPageModule)
+    loadChildren: () => import('./products/list/list.module').then(m => m.ListPageModule)
   },
   {
     path: 'cart',
-    loadChildren: () => import('./products/cart/cart.module').then( m => m.CartPageModule)
+    loadChildren: () => import('./products/cart/cart.module').then(m => m.CartPageModule)
   },
   {
     path: 'add-product',
-    loadChildren: () => import('./products/add-product/add-product.module').then( m => m.AddProductPageModule)
+    loadChildren: () => import('./products/add-product/add-product.module').then(m => m.AddProductPageModule)
   },
 ];
 
