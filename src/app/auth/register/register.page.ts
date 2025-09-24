@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { User, UserRole } from 'src/app/user/user.model';
+import { UserService } from 'src/app/user/user.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
@@ -9,14 +12,20 @@ import { AlertController } from '@ionic/angular';
   standalone: false,
 })
 export class RegisterPage {
-  fullName: string = '';
-  email: string = '';
-  username: string = '';
-  password: string = '';
-  confirmPassword: string = '';
+  fullName = '';
+  email = '';
+  role: UserRole = UserRole.Client;
+  username = '';
+  password = '';
+  confirmPassword = '';
 
-  constructor(private router: Router, private alertCtrl: AlertController) { }
+  constructor(
+    private router: Router,
+    private alertCtrl: AlertController,
+    private userService: UserService,
+  ) { }
 
+  // Registrar a un usuario (Rol Cliente)
   async register() {
     if (this.password !== this.confirmPassword) {
       const alert = await this.alertCtrl.create({
@@ -28,27 +37,30 @@ export class RegisterPage {
       return;
     }
 
-    // Obtener usuarios guardados o crear arreglo vacío
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-
-    // Validar si el usuario ya existe
-    if (users.some((u: any) => u.username === this.username)) {
+    const existingUser = await this.userService.getUserByUsername(this.username);
+    if (existingUser) {
       const alert = await this.alertCtrl.create({
         header: 'Error',
-        message: 'El usuario ya existe',
+        message: 'El nombre de usuario ya existe',
         buttons: ['OK'],
       });
       await alert.present();
       return;
     }
 
-    // Agregar nuevo usuario
-    users.push({ fullName: this.fullName, email: this.email, username: this.username, password: this.password });
-    localStorage.setItem('users', JSON.stringify(users));
+    const newUser: User = {
+      fullName: this.fullName,
+      email: this.email,
+      role: this.role,
+      username: this.username,
+      password: this.password
+    };
+
+    await this.userService.registerUser(newUser);
 
     const alert = await this.alertCtrl.create({
       header: 'Éxito',
-      message: 'Registro completado correctamente',
+      message: 'Usuario registrado correctamente',
       buttons: ['OK'],
     });
     await alert.present();
