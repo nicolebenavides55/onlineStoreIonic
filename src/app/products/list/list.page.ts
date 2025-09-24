@@ -18,7 +18,7 @@ export class ListPage {
   ];
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private alertCtrl: AlertController
   ) { }
 
@@ -31,5 +31,9 @@ export class ListPage {
     await alert.present();
 
     this.router.navigate(['/cart']);
+  }
+
+  addProduct() {
+    this.router.navigate(['/add-product']);
   }
 }
