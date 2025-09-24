@@ -17,7 +17,7 @@ export class ForgotPasswordPage {
 
   async sendRecovery() {
     // Aquí iría la lógica real de envío de correo (API REST)
-    console.log('Correo de recuperación enviado a:', this.email);
+    // console.log('Correo de recuperación enviado a:', this.email);
 
     // const alert = await this.alertCtrl.create({
     //   header: 'Éxito',

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth-guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -21,15 +22,18 @@ const routes: Routes = [
   },
   {
     path: 'products/list',
-    loadChildren: () => import('./products/list/list.module').then(m => m.ListPageModule)
+    loadChildren: () => import('./products/list/list.module').then(m => m.ListPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'cart',
-    loadChildren: () => import('./products/cart/cart.module').then(m => m.CartPageModule)
+    loadChildren: () => import('./products/cart/cart.module').then(m => m.CartPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'add-product',
-    loadChildren: () => import('./products/add-product/add-product.module').then(m => m.AddProductPageModule)
+    loadChildren: () => import('./products/add-product/add-product.module').then(m => m.AddProductPageModule),
+    canActivate: [AuthGuard]
   },
 ];
 

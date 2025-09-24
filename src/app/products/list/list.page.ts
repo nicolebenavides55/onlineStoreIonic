@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-list',
@@ -19,7 +20,8 @@ export class ListPage {
 
   constructor(
     private router: Router,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private authService: AuthService,
   ) { }
 
   async addToCart(product: any) {
@@ -35,5 +37,26 @@ export class ListPage {
 
   addProduct() {
     this.router.navigate(['/add-product']);
+  }
+
+  async logout() {
+    const isValid = await this.authService.logout();
+
+    if (isValid) {
+      const alert = await this.alertCtrl.create({
+        header: 'Éxito',
+        message: 'Sesión cerrada correctamente',
+        buttons: ['OK']
+      });
+      await alert.present();
+      this.router.navigate(['/login']);
+    } else {
+      const alert = await this.alertCtrl.create({
+        header: 'Error',
+        message: 'No fue posible cerrar sesión',
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
   }
 }
