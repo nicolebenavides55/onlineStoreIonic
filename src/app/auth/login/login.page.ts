@@ -12,7 +12,10 @@ export class LoginPage {
   username: string = '';
   password: string = '';
 
-  constructor(private router: Router, private alertCtrl: AlertController) { }
+  constructor(
+    private router: Router, 
+    private alertCtrl: AlertController
+  ) { }
 
   async login() {
     const users = JSON.parse(localStorage.getItem('users') || '[]');
@@ -33,7 +36,7 @@ export class LoginPage {
       await alert.present();
 
       // Redirigir a home
-      this.router.navigate(['/login']);
+      this.router.navigate(['/list']);
     } else {
       const alert = await this.alertCtrl.create({
         header: 'Error',
