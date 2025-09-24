@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from './user/user.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +12,17 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
 
   constructor(
-    private router: Router
-  ) { }
+    private router: Router,
+    private platform: Platform,
+    private userService: UserService
+  ) {
+    this.initializeApp();
+  }
+
+  async initializeApp() {
+    await this.platform.ready();
+    await this.userService.init();
+  }
 
   ngOnInit() {
     // Simular carga de la app
@@ -25,6 +36,6 @@ export class AppComponent implements OnInit {
 
       // Redirigir al login
       this.router.navigate(['/login']);
-    }, 3000); // Splash de 3 segundos
+    }, 2000); // Splash de 2 segundos
   }
 }

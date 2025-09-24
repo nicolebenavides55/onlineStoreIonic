@@ -16,8 +16,21 @@ export class UserService {
     this.init();
   }
 
+  // Inicializar DB y carga usuarios de ejemplo
   async init() {
     this._storage = await this.storage.create();
+    const existingUsers = await this._storage.get(this.USERS_KEY);
+
+    if (!existingUsers || existingUsers.length === 0) {
+      const defaultUsers: User[] = [
+        { fullName: 'Admin', email: 'admin@test.com', username: 'admin', password: 'admin123', role: 1 },
+        { fullName: 'Cliente', email: 'cliente@test.com', username: 'cliente', password: 'cliente123', role: 2 }
+      ];
+
+      for (const user of defaultUsers) {
+        await this.registerUser(user); 
+      }
+    }
   }
 
   // Registrar usuario con contraseña encriptada
