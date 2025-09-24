@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/auth/auth.service';
+import { CarService } from 'src/app/car/car.service';
 
 @Component({
   selector: 'app-list',
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./list.page.scss'],
   standalone: false,
 })
-export class ListPage {
+export class ListPage implements OnInit {
 
   products = [
     { id: 1, name: 'Producto 1', description: 'Descripción del producto 1', price: 10.99, image: 'assets/product1.jpg' },
@@ -22,7 +23,20 @@ export class ListPage {
     private router: Router,
     private alertCtrl: AlertController,
     private authService: AuthService,
+    private carService: CarService,
   ) { }
+
+  ngOnInit() {
+    this.carService.loadProducts().subscribe({
+      next: (data) => {
+        console.log('🚗 Autos cargados:', data);
+        this.products = data; // 👈 asigna al array para mostrar en la vista
+      },
+      error: (err) => {
+        console.error('❌ Error al cargar autos', err);
+      }
+    });
+  }
 
   async addToCart(product: any) {
     const alert = await this.alertCtrl.create({
