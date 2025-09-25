@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { ProductsService } from '../products.service'; // 👈 Ajusta la ruta según tu proyecto
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-product',
@@ -14,47 +16,65 @@ export class AddProductPage {
   description: string = '';
   price: number = 0;
   image: string = '';
-  deliveryTime: string = '';
-  paymentMethod: string = '';
-  discount: number = 0;
-  additionalInfo: string = '';
-  quantity: number = 1;
+  brand: string = '';
+  model: string = '';
+  year: number | null = null;
+  color: string = '';
+  mileage: number | null = null;
+  fuelType: string = '';
 
   constructor(
-    private alertCtrl: AlertController
-  ) {}
+    private alertCtrl: AlertController,
+    private productsService: ProductsService,
+    private router: Router,
+  ) { }
 
   addProduct() {
+    if (!this.name || !this.price || this.price <= 0) {
+      this.showAlert('Error', 'Nombre y precio son obligatorios');
+      return;
+    }
+
     const product = {
-      id: new Date().getTime(), // ID único
       name: this.name,
       description: this.description,
       price: this.price,
       image: this.image,
-      deliveryTime: this.deliveryTime,
-      paymentMethod: this.paymentMethod,
-      discount: this.discount,
-      additionalInfo: this.additionalInfo,
-      quantity: this.quantity
+      brand: this.brand,
+      model: this.model,
+      year: this.year,
+      color: this.color,
+      mileage: this.mileage,
+      fuelType: this.fuelType
     };
 
-    // Guardar en carrito (localStorage)
-    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    cart.push(product);
-    localStorage.setItem('cart', JSON.stringify(cart));
+    this.productsService.addProduct(product).subscribe({
+      next: async (res) => {
+        await this.showAlert('Éxito', 'Producto agregado correctamente a la API');
 
-    this.showAlert('Éxito', 'Producto agregado al carrito correctamente');
+        // Limpiar formulario
+        this.resetForm();
 
-    // Limpiar campos
+        this.router.navigate(['products/list']);
+      },
+      error: async (err) => {
+        console.error('Error al agregar:', err);
+        await this.showAlert('Error', 'No se pudo agregar el producto');
+      }
+    });
+  }
+
+  resetForm() {
     this.name = '';
     this.description = '';
     this.price = 0;
     this.image = '';
-    this.deliveryTime = '';
-    this.paymentMethod = '';
-    this.discount = 0;
-    this.additionalInfo = '';
-    this.quantity = 1;
+    this.brand = '';
+    this.model = '';
+    this.year = null;
+    this.color = '';
+    this.mileage = null;
+    this.fuelType = '';
   }
 
   async showAlert(header: string, message: string) {
@@ -64,5 +84,9 @@ export class AddProductPage {
       buttons: ['OK'],
     });
     await alert.present();
+  }
+
+  goBack() {
+    this.router.navigate(['products/list']);
   }
 }

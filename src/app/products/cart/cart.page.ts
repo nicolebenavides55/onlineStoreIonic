@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { CartService } from './cart.service';
+import { CartItem } from './cart.model';
+import { AuthService } from 'src/app/auth/auth.service';
+import { ProductsService } from '../products.service';
 
 @Component({
   selector: 'app-cart',
@@ -8,35 +12,72 @@ import { AlertController } from '@ionic/angular';
   standalone: false,
 })
 export class CartPage implements OnInit {
-
-  // cart: any[] = [];
+  cart: CartItem[] = [];
+  productsInCart: any[] = []; // Array con datos completos de cada producto
+  userId: number = 0;
   total: number = 0;
 
-  cart = [
-    { id: 1, name: 'Producto 1', description: 'Descripción del producto 1', price: 10.99, image: 'assets/product1.jpg', quantity: 1 },
-    { id: 2, name: 'Producto 2', description: 'Descripción del producto 2', price: 20.50, image: 'assets/product2.jpg', quantity: 1 },
-    { id: 3, name: 'Producto 3', description: 'Descripción del producto 3', price: 15.75, image: 'assets/product3.jpg', quantity: 1 },
-    { id: 4, name: 'Producto 4', description: 'Descripción del producto 4', price: 8.99, image: 'assets/product4.jpg', quantity: 1 },
-  ];
-
   constructor(
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private cartService: CartService,
+    private authService: AuthService,
+    private productsService: ProductsService,
   ) { }
 
   ngOnInit() {
-    // Cargar productos del carrito desde localStorage o Ionic Storage
-    // this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    this.updateTotal();
+    this.loadCart();
+  }
+
+  async loadCart() {
+    const session = await this.authService.getUserSession();
+    if (!session) return;
+
+    this.userId = session?.idUser || 0;
+
+    // Obtener items del carrito
+    this.cartService.getCart(this.userId).subscribe(async items => {
+      console.log('items', items)
+
+      this.cart = items;
+      this.productsInCart = [];
+
+      // Por cada item, buscar el producto completo
+      for (const item of items) {
+        const product = await this.productsService.getProductById(item.productId).toPromise();
+        console.log('product', product)
+
+        if (product) {
+          this.productsInCart.push({
+            ...item,
+            productName: product.name,
+            price: product.price,
+            image: product.image,
+            description: product.description
+          });
+        } else {
+          console.warn(`Producto con ID ${item.productId} no encontrado`);
+        }
+      }
+
+      console.log('productsInCart', this.productsInCart)
+
+      // this.updateTotal();
+    });
   }
 
   updateTotal() {
-    this.total = this.cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+    // this.total = this.cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
   }
 
-  removeItem(index: number) {
-    this.cart.splice(index, 1);
-    localStorage.setItem('cart', JSON.stringify(this.cart));
-    this.updateTotal();
+  removeItem(item: CartItem) {
+    if (!item.id) return;
+    this.cartService.removeFromCart(item.id).subscribe(() => {
+      this.loadCart();
+    });
+  }
+
+  updateQuantity(item: any) {
+
   }
 
   async checkout() {
@@ -47,10 +88,9 @@ export class CartPage implements OnInit {
     });
     await alert.present();
 
-    // Vaciar carrito
-    this.cart = [];
-    localStorage.removeItem('cart');
-    this.updateTotal();
+    this.cartService.clearCart(this.userId).subscribe(() => {
+      this.cart = [];
+      this.updateTotal();
+    });
   }
-
 }

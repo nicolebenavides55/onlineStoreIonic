@@ -6,7 +6,7 @@ export enum UserRole {
 
 // Interfaz del usuario
 export interface User {
-  id?: number;           // Opcional (SQLite suele autogenerarlo)
+  idUser?: number;        // Id Usuario
   fullName: string;      // Nombre completo del usuario
   email: string;         // Correo único
   username: string;      // Nombre de usuario único

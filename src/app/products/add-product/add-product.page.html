@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form (ngSubmit)="addProduct()">
+  <form (ngSubmit)="addProduct()" #productForm="ngForm">
 
     <ion-item>
       <ion-label position="floating">Nombre</ion-label>
@@ -14,46 +14,55 @@
 
     <ion-item>
       <ion-label position="floating">Descripción</ion-label>
-      <ion-textarea [(ngModel)]="description" name="description" required></ion-textarea>
+      <ion-textarea [(ngModel)]="description" name="description"></ion-textarea>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Precio</ion-label>
-      <ion-input type="number" [(ngModel)]="price" name="price" required></ion-input>
+      <ion-input type="number" [(ngModel)]="price" name="price" required min="1"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Imagen (URL)</ion-label>
-      <ion-input type="text" [(ngModel)]="image" name="image"></ion-input>
+      <ion-input type="url" [(ngModel)]="image" name="image"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Tiempo de entrega</ion-label>
-      <ion-input type="text" [(ngModel)]="deliveryTime" name="deliveryTime"></ion-input>
+      <ion-label position="floating">Marca</ion-label>
+      <ion-input type="text" [(ngModel)]="brand" name="brand"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Modalidad de pago</ion-label>
-      <ion-input type="text" [(ngModel)]="paymentMethod" name="paymentMethod"></ion-input>
+      <ion-label position="floating">Modelo</ion-label>
+      <ion-input type="text" [(ngModel)]="model" name="model"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Descuento (%)</ion-label>
-      <ion-input type="number" [(ngModel)]="discount" name="discount"></ion-input>
+      <ion-label position="floating">Año</ion-label>
+      <ion-input type="number" [(ngModel)]="year" name="year"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Otra información</ion-label>
-      <ion-textarea [(ngModel)]="additionalInfo" name="additionalInfo"></ion-textarea>
+      <ion-label position="floating">Color</ion-label>
+      <ion-input type="text" [(ngModel)]="color" name="color"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Cantidad</ion-label>
-      <ion-input type="number" [(ngModel)]="quantity" name="quantity" min="1"></ion-input>
+      <ion-label position="floating">Kilometraje</ion-label>
+      <ion-input type="number" [(ngModel)]="mileage" name="mileage"></ion-input>
     </ion-item>
 
-    <ion-button expand="full" type="submit" [disabled]="!name || !description || !price">
-      Agregar 
+    <ion-item>
+      <ion-label position="floating">Combustible</ion-label>
+      <ion-input type="text" [(ngModel)]="fuelType" name="fuelType"></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="!productForm.valid">
+      Agregar
+    </ion-button>
+
+    <ion-button expand="full" type="button" color="medium" (click)="goBack()">
+      Volver
     </ion-button>
 
   </form>

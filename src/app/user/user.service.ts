@@ -28,7 +28,7 @@ export class UserService {
       ];
 
       for (const user of defaultUsers) {
-        await this.registerUser(user); 
+        await this.registerUser(user);
       }
     }
   }
@@ -37,11 +37,17 @@ export class UserService {
   async registerUser(user: User) {
     let users = await this._storage?.get('users') || [];
 
+    // Buscar el mayor idUser o 0 si no hay usuarios
+    const maxId = users.length > 0
+      ? Math.max(...users.map((u: User) => u.idUser))
+      : 0;
+
     // Encriptar la contraseña antes de guardar
     const hashedPassword = await bcrypt.hash(user.password, 10);
 
     users.push({
       ...user,
+      idUser: maxId + 1,
       password: hashedPassword
     });
 

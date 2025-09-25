@@ -52,6 +52,11 @@ export class AuthService {
     }
   }
 
+  // Obtener al usuario logeado
+  async getUserSession(): Promise<User | null> {
+    return await this.storage.get('session') || null;
+  }
+
   async getSession(): Promise<any> {
     return await this.storage.get(this.SESSION_KEY);
   }
