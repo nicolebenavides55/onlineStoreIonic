@@ -1,5 +1,76 @@
-// .links {
-//   display: flex;
-//   justify-content: space-between;
-//   margin-top: 10px;
-// }
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+.container {
+    display: flex;
+    height: 100%;
+    background-color: #f0f2f5;
+}
+
+/* Izquierda: imagen */
+.left {
+    flex: 1;
+    background: url('/assets/images/login-bg.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+/* Derecha: formulario */
+.right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: #ffffff;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-form h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.login-form p {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: var(--secondary);
+}
+
+ion-item {
+    margin-bottom: 1.5rem;
+}
+
+ion-button.login-btn {
+    --background: var(--primary);
+    --color: white;
+    text-transform: none;
+}
+
+.register{
+    font-weight: bold;
+    color: var(--primary);
+}
+
+/* Responsive: Celulares */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left {
+        height: 200px;
+        flex: none;
+    }
+
+    .right {
+        align-items: flex-start;
+    }
+}

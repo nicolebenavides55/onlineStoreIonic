@@ -1,34 +1,48 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true">
+  <div class="container">
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <form (ngSubmit)="login()" #loginForm="ngForm">
+    <!-- IZQUIERDA: Imagen -->
+    <div class="left"></div>
 
-    <ion-item>
-      <ion-label position="floating">Usuario</ion-label>
-      <ion-input type="text" required [(ngModel)]="username" name="username"></ion-input>
-    </ion-item>
+    <!-- DERECHA: Formulario -->
+    <div class="right">
+      <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm">
+        <h1>Iniciar sesión</h1>
+        <p>Accede a tu cuenta, para continuar</p>
 
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" required [(ngModel)]="password" name="password"></ion-input>
-    </ion-item>
+        <!-- Usuario -->
+        <ion-item>
+          <!-- <ion-label position="floating">Usuario</ion-label> -->
+          <ion-input type="text" name="username" [(ngModel)]="username" placeholder="Usuario" required></ion-input>
+          <ion-icon slot="start" name="person-outline"></ion-icon>
+        </ion-item>
 
-    <ion-button expand="full" type="submit" [disabled]="!loginForm.form.valid">
-      Iniciar Sesión
-    </ion-button>
+        <!-- Contraseña -->
+        <ion-item>
+          <!-- Ícono candado -->
+          <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
 
-    <div class="links">
-      <ion-button fill="clear" size="small" (click)="goToRegister()">
-        Registrarse
-      </ion-button>
-      <ion-button fill="clear" size="small" (click)="forgotPassword()">
-        Olvidé mi contraseña
-      </ion-button>
+          <!-- Input de contraseña -->
+          <ion-input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="password"
+            placeholder="Contraseña" required>
+          </ion-input>
+
+          <!-- Ícono ojo  -->
+          <ion-icon slot="end" [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+            (click)="togglePassword()"></ion-icon>
+        </ion-item>
+
+        <!-- Botón -->
+        <ion-button expand="block" type="submit" [disabled]="!loginForm.form.valid" class="ion-margin-top login-btn">
+          Acceder
+        </ion-button>
+
+        <!-- Registro -->
+        <div class="ion-text-center ion-margin-top signup">
+          ¿No tienes cuenta? <a href="/registro" class="register">Regístrate</a>
+        </div>
+      </form>
     </div>
 
-  </form>
+  </div>
 </ion-content>

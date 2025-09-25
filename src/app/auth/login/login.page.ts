@@ -10,15 +10,16 @@ import { UserService } from 'src/app/user/user.service';
   styleUrls: ['login.page.scss'],
   standalone: false,
 })
-export class LoginPage  {
+export class LoginPage {
   username: string = '';
   password: string = '';
+  showPassword: boolean = false;
 
   constructor(
     private router: Router,
     private alertCtrl: AlertController,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   async login() {
     const isValid = await this.authService.login(this.username, this.password);
@@ -47,5 +48,9 @@ export class LoginPage  {
 
   forgotPassword() {
     this.router.navigate(['/forgot-password']);
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 }
