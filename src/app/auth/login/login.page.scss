@@ -54,9 +54,20 @@ ion-button.login-btn {
     text-transform: none;
 }
 
-.register{
+.register {
     font-weight: bold;
     color: var(--primary);
+}
+
+.signup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup p {
+    margin: 0;
+    margin-right: 0.5rem;
 }
 
 /* Responsive: Celulares */

@@ -26,16 +26,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // Simular carga de la app
-    setTimeout(() => {
-      const splash = document.getElementById('splash');
-      const appContent = document.getElementById('appContent');
-      if (splash && appContent) {
-        splash.style.display = 'none';
-        appContent.style.display = 'block';
-      }
+    // setTimeout(() => {
+    //   const splash = document.getElementById('splash');
+    //   const appContent = document.getElementById('appContent');
+    //   if (splash && appContent) {
+    //     splash.style.display = 'none';
+    //     appContent.style.display = 'block';
+    //   }
 
-      // Redirigir al login
-      this.router.navigate(['/login']);
-    }, 2000); // Splash de 2 segundos
+    //   // Redirigir al login
+    //   this.router.navigate(['/login']);
+    // }, 2000); // Splash de 2 segundos
   }
 }
