@@ -23,11 +23,11 @@ const routes: Routes = [
   {
     path: 'products/list',
     loadChildren: () => import('./products/list/list.module').then(m => m.ListPageModule),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'cart',
-    loadChildren: () => import('./products/cart/cart.module').then(m => m.CartPageModule),
+    loadChildren: () => import('./cart/cart.module').then(m => m.CartPageModule),
     canActivate: [AuthGuard]
   },
   {

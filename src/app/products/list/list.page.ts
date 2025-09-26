@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ProductsService } from 'src/app/products/products.service';
-import { CartService } from '../cart/cart.service';
-import { CartItem } from '../cart/cart.model';
+import { CartService } from '../../cart/cart.service';
+import { CartItem } from '../../cart/cart.model';
 
 @Component({
   selector: 'app-list',
@@ -38,7 +38,6 @@ export class ListPage implements OnInit {
   async getLoggedUser() {
     const session = await this.authService.getUserSession();
     this.loggedUser = session;
-    console.log('loggedUser', this.loggedUser)
   }
 
   // Filtrar la lista de productos (Nombre)
@@ -55,7 +54,6 @@ export class ListPage implements OnInit {
       next: (data) => {
         this.listProducts = data;
         this.filteredlistProducts = [...this.listProducts];
-        console.log('listProducts', this.listProducts)
       },
       error: (err) => {
         console.error('Error:', err);
@@ -100,8 +98,6 @@ export class ListPage implements OnInit {
           productId,
           quantity: 1
         };
-
-        console.log('cartItem', cartItem)
 
         this.cartService.addToCart(cartItem).subscribe(() => {
           this.showCart();

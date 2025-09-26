@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>🛒 Carrito de Compras</ion-title>
+    <ion-title>Carrito de Compras</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -57,6 +57,10 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
+
+  <ion-button class="ion-margin-top login-btn" (click)="return()">
+    Vovler
+  </ion-button>
 
   <ng-template #emptyCart>
     <ion-text color="medium" class="ion-text-center">

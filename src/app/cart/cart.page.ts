@@ -3,7 +3,8 @@ import { AlertController } from '@ionic/angular';
 import { CartService } from './cart.service';
 import { CartItem } from './cart.model';
 import { AuthService } from 'src/app/auth/auth.service';
-import { ProductsService } from '../products.service';
+import { ProductsService } from '../products/products.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -22,6 +23,7 @@ export class CartPage implements OnInit {
     private cartService: CartService,
     private authService: AuthService,
     private productsService: ProductsService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -36,16 +38,12 @@ export class CartPage implements OnInit {
 
     // Obtener items del carrito
     this.cartService.getCart(this.userId).subscribe(async items => {
-      console.log('items', items)
-
       this.cart = items;
       this.productsInCart = [];
 
       // Por cada item, buscar el producto completo
       for (const item of items) {
         const product = await this.productsService.getProductById(item.productId).toPromise();
-        console.log('product', product)
-
         if (product) {
           this.productsInCart.push({
             ...item,
@@ -59,18 +57,12 @@ export class CartPage implements OnInit {
         }
       }
 
-      console.log('productsInCart', this.productsInCart)
-
       this.updateTotal();
     });
   }
 
   // Llamado al cambiar la cantidad en el input
   onQuantityChange(item: any, event: any) {
-
-    console.log('item', item)
-    console.log('event', event)
-
     const value = parseInt(event.detail.value, 10);
     if (isNaN(value) || value < 1) {
       item.quantity = 1;
@@ -117,5 +109,9 @@ export class CartPage implements OnInit {
       this.cart = [];
       this.updateTotal();
     });
+  }
+
+  return() {
+    this.router.navigate(['/products/list']);
   }
 }
