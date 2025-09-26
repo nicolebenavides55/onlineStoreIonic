@@ -76,10 +76,10 @@ export class ListPage implements OnInit {
       return;
     }
 
-    const idUser = this.loggedUser.idUser || 0
+    const userId = this.loggedUser.idUser || 0;
 
     // Obtener el carrito del usuario
-    this.cartService.getCart(idUser).subscribe(async (cartItems) => {
+    this.cartService.getCart(userId).subscribe(async (cartItems) => {
 
       // Convertir productId a string para evitar duplicados
       const productId = product.id.toString();
@@ -96,10 +96,12 @@ export class ListPage implements OnInit {
       } else {
         // Si no existe, agregamos un nuevo item
         const cartItem: CartItem = {
-          idUser,
+          userId,
           productId,
           quantity: 1
         };
+
+        console.log('cartItem', cartItem)
 
         this.cartService.addToCart(cartItem).subscribe(() => {
           this.showCart();

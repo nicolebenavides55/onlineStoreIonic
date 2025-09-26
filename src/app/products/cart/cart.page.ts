@@ -65,7 +65,24 @@ export class CartPage implements OnInit {
     });
   }
 
-  // Llamado cuando cambia la cantidad de un item
+  // Llamado al cambiar la cantidad en el input
+  onQuantityChange(item: any, event: any) {
+
+    console.log('item', item)
+    console.log('event', event)
+
+    const value = parseInt(event.detail.value, 10);
+    if (isNaN(value) || value < 1) {
+      item.quantity = 1;
+    } else {
+      item.quantity = value;
+    }
+
+    this.updateQuantity(item.id, value);
+    this.updateTotal();
+  }
+
+  // Calcular total
   updateTotal() {
     this.total = this.productsInCart.reduce(
       (acc, item) => acc + item.price * item.quantity,
@@ -82,8 +99,10 @@ export class CartPage implements OnInit {
     });
   }
 
-  updateQuantity(item: any) {
-
+  updateQuantity(idCart: number, quantity: number) {
+    this.cartService.updateCartQuantity(idCart, quantity).subscribe(() => {
+      this.loadCart();
+    });
   }
 
   async checkout() {
