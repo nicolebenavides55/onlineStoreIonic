@@ -1,83 +1,72 @@
 * {
-    // margin: 0;
+    padding: 0;
+    margin: 0;
     font-family: 'Open Sans', sans-serif;
 }
 
-
 .container {
-    display: flex;
+    width: 100%;
     height: 100%;
-    background-color: #f0f2f5;
+    display: flex;
+    background-color: var(--white);
 }
 
-/* Izquierda: imagen */
-.left {
+.cont-img {
     flex: 1;
     background: url('/assets/images/login-bg.jpg') no-repeat center center;
     background-size: cover;
 }
 
-/* Derecha: formulario */
-.right {
-    flex: 1;
+.cont-form {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
-    background-color: #ffffff;
+    flex: 1;
+    background-color: var(--white);
 }
 
-/* Formulario */
-.login-form {
+.cont-form form {
     width: 70%;
-    // max-width: 400px;
 }
 
-/* Título */
-.login-form h1,
-.page-title {
+h1.title {
     font-size: 2rem;
-    margin-bottom: 0.8rem;
     font-weight: bold;
     color: var(--primary);
-    margin-top: 0;
+    margin-bottom: 0.5rem;
 }
 
-/* Subtítulo */
-.login-form p,
-.page-subtitle {
+.text {
     font-size: 1rem;
+    color: var(--secondary);
     margin-bottom: 2rem;
-    color: #555;
 }
 
-/* Inputs */
 ion-item {
     margin-bottom: 1.5rem;
 }
 
-/* Botón principal */
-ion-button.login-btn {
+.icon-input {
+    margin-right: 1em;
+}
+
+.btn-main {
     --background: var(--primary);
     --color: white;
     text-transform: none;
+    margin-bottom: 1.5rem;
 }
 
-/* Botón secundario */
-.register {
+.link {
     font-weight: bold;
     color: var(--primary);
 }
 
-.signup {
+.cont-link {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-}
-
-.signup p {
-    margin: 0;
-    margin-right: 0.5rem;
+    gap: 0.5em;
 }
 
 /* Responsive: Celulares */
@@ -86,16 +75,12 @@ ion-button.login-btn {
         flex-direction: column;
     }
 
-    .left {
-        height: 100px;
+    .cont-img {
+        height: 200px;
         flex: none;
     }
 
-    .right {
-        align-items: flex-start;
-    }
-
-    .login-form {
-        width: 100%;
+    .cont-form form {
+        width: 80%;
     }
 }

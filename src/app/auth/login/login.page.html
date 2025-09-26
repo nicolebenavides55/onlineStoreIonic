@@ -1,26 +1,25 @@
 <ion-content [fullscreen]="true">
   <div class="container">
 
-    <!-- IZQUIERDA: Imagen -->
-    <div class="left"></div>
+    <!-- Imagen -->
+    <div class="cont-img"></div>
 
-    <!-- DERECHA: Formulario -->
-    <div class="right">
-      <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm">
-        <h1>Iniciar sesión</h1>
-        <p>Accede a tu cuenta, para continuar</p>
+    <!-- Formulario -->
+    <div class="cont-form">
+      <form (ngSubmit)="login()" #loginForm="ngForm">
+        <h1 class="title">Iniciar sesión</h1>
+        <p class="text">Accede a tu cuenta, para continuar</p>
 
         <!-- Usuario -->
         <ion-item>
-          <!-- <ion-label position="floating">Usuario</ion-label> -->
           <ion-input type="text" name="username" [(ngModel)]="username" placeholder="Usuario" required></ion-input>
-          <ion-icon slot="start" name="person-outline"></ion-icon>
+          <ion-icon class="icon-input" slot="start" name="person-outline"></ion-icon>
         </ion-item>
 
         <!-- Contraseña -->
         <ion-item>
           <!-- Ícono candado -->
-          <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+          <ion-icon class="icon-input" slot="start" name="lock-closed-outline"></ion-icon>
 
           <!-- Input de contraseña -->
           <ion-input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="password"
@@ -33,14 +32,14 @@
         </ion-item>
 
         <!-- Botón -->
-        <ion-button expand="block" type="submit" [disabled]="!loginForm.form.valid" class="ion-margin-top login-btn">
+        <ion-button expand="block" type="submit" [disabled]="!loginForm.form.valid" class="btn-main">
           Acceder
         </ion-button>
 
         <!-- Registro -->
-        <div class="ion-text-center ion-margin-top signup">
-          <p>¿No tienes cuenta?</p>
-          <a href="/register" class="register">Regístrate</a>
+        <div class="cont-link">
+          <p class="text">¿No tienes cuenta?</p>
+          <a href="/register" class="link">Regístrate</a>
         </div>
       </form>
     </div>

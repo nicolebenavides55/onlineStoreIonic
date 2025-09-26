@@ -1,73 +1,72 @@
 * {
+    padding: 0;
+    margin: 0;
     font-family: 'Open Sans', sans-serif;
 }
 
-
 .container {
-    display: flex;
+    width: 100%;
     height: 100%;
-    background-color: #f0f2f5;
+    display: flex;
+    background-color: var(--white);
 }
 
-/* Izquierda: imagen */
-.left {
+.cont-img {
     flex: 1;
     background: url('/assets/images/login-bg.jpg') no-repeat center center;
     background-size: cover;
 }
 
-/* Derecha: formulario */
-.right {
-    flex: 1;
+.cont-form {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
-    background-color: #ffffff;
+    flex: 1;
+    background-color: var(--white);
 }
 
-.login-form {
-    width: 100%;
-    max-width: 400px;
+.cont-form form {
+    width: 70%;
 }
 
-.login-form h1 {
+h1.title {
     font-size: 2rem;
-    margin-bottom: 0.5rem;
     font-weight: bold;
     color: var(--primary);
+    margin-bottom: 0.5rem;
 }
 
-.login-form p {
+.text {
     font-size: 1rem;
-    margin-bottom: 2rem;
     color: var(--secondary);
+    margin-bottom: 2rem;
 }
 
 ion-item {
     margin-bottom: 1.5rem;
 }
 
-ion-button.login-btn {
+.icon-input {
+    margin-right: 1em;
+}
+
+.btn-main {
     --background: var(--primary);
     --color: white;
     text-transform: none;
+    margin-bottom: 1.5rem;
 }
 
-.register {
+.link {
     font-weight: bold;
     color: var(--primary);
 }
 
-.signup {
+.cont-link {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-}
-
-.signup p {
-    margin: 0;
-    margin-right: 0.5rem;
+    gap: 0.5em;
 }
 
 /* Responsive: Celulares */
@@ -76,12 +75,12 @@ ion-button.login-btn {
         flex-direction: column;
     }
 
-    .left {
+    .cont-img {
         height: 200px;
         flex: none;
     }
 
-    .right {
-        align-items: flex-start;
+    .cont-form form {
+        width: 80%;
     }
 }

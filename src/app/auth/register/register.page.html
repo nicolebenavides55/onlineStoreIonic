@@ -1,40 +1,38 @@
-<ion-content [fullscreen]="true" class="ion-padding">
-
+<ion-content [fullscreen]="true">
   <div class="container">
 
+    <!-- Imagen -->
+    <div class="cont-img"></div>
 
-    <div class="left"></div>
-
-    <div class="right">
-
-      <form (ngSubmit)="register()" #registerForm="ngForm" class="login-form">
-
-        <h1 class="page-title">Crea tu cuenta</h1>
-        <p class="page-subtitle">Ingresa tus datos para registrarte</p>
+    <!-- Formulario -->
+    <div class="cont-form">
+      <form (ngSubmit)="register()" #registerForm="ngForm">
+        <h1 class="title">Crea tu cuenta</h1>
+        <p class="text">Ingresa tus datos para registrarte</p>
 
         <!-- Nombre completo -->
         <ion-item>
-          <ion-icon slot="start" name="person-outline"></ion-icon>
+          <ion-icon class="icon-input" slot="start" name="person-outline"></ion-icon>
           <ion-input type="text" placeholder="Nombre completo" required [(ngModel)]="fullName"
             name="fullName"></ion-input>
         </ion-item>
 
         <!-- Correo electrónico -->
         <ion-item>
-          <ion-icon slot="start" name="mail-outline"></ion-icon>
+          <ion-icon class="icon-input" slot="start" name="mail-outline"></ion-icon>
           <ion-input type="email" placeholder="Correo electrónico" required [(ngModel)]="email"
             name="email"></ion-input>
         </ion-item>
 
         <!-- Usuario -->
         <ion-item>
-          <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+          <ion-icon class="icon-input" slot="start" name="person-circle-outline"></ion-icon>
           <ion-input type="text" placeholder="Usuario" required [(ngModel)]="username" name="username"></ion-input>
         </ion-item>
 
         <!-- Contraseña -->
         <ion-item>
-          <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+          <ion-icon class="icon-input" slot="start" name="lock-closed-outline"></ion-icon>
           <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Contraseña" required
             [(ngModel)]="password" name="password"></ion-input>
           <ion-icon slot="end" [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
@@ -43,7 +41,7 @@
 
         <!-- Confirmar Contraseña -->
         <ion-item>
-          <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+          <ion-icon class="icon-input" slot="start" name="lock-closed-outline"></ion-icon>
           <ion-input [type]="showConfirmPassword ? 'text' : 'password'" placeholder="Confirmar Contraseña" required
             [(ngModel)]="confirmPassword" name="confirmPassword"></ion-input>
           <ion-icon slot="end" [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"
@@ -51,20 +49,17 @@
         </ion-item>
 
         <!-- Botón de registro -->
-        <ion-button expand="block" type="submit" class="login-btn" [disabled]="!registerForm.form.valid">
+        <ion-button expand="block" type="submit" class="btn-main" [disabled]="!registerForm.form.valid">
           Registrarse
         </ion-button>
 
         <!-- Ir al login -->
-        <div class="ion-text-center ion-margin-top signup">
-          <p>¿Ya tienes cuenta?</p>
-          <a href="/login" class="register">Inicia sesión</a>
+        <div class="cont-link">
+          <p class="text">¿Ya tienes cuenta?</p>
+          <a href="/login" class="link">Inicia sesión</a>
         </div>
       </form>
-
     </div>
 
   </div>
-
-
 </ion-content>
