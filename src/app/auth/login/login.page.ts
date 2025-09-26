@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { AuthService } from '../auth.service';
-import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +30,7 @@ export class LoginPage {
         buttons: ['OK']
       });
       await alert.present();
+
       this.router.navigate(['/products/list']);
     } else {
       const alert = await this.alertCtrl.create({

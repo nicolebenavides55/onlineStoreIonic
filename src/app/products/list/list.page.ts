@@ -89,7 +89,7 @@ export class ListPage implements OnInit {
         // Si existe, actualizamos la cantidad 
         const newQuantity = (existingItem.quantity || 1) + 1;
         this.cartService.updateCartQuantity(existingItem.id!, newQuantity).subscribe(() => {
-          this.showCart();
+          this.showCart(1);
         });
       } else {
         // Si no existe, agregamos un nuevo item
@@ -100,15 +100,52 @@ export class ListPage implements OnInit {
         };
 
         this.cartService.addToCart(cartItem).subscribe(() => {
-          this.showCart();
+          this.showCart(1);
         });
       }
     });
   }
 
   // Ir al carrito
-  showCart() {
-    this.router.navigate(['/cart']);
+  async showCart(source: number) {
+    switch (source) {
+      case 1:
+        const alert = await this.alertCtrl.create({
+          header: '¡Éxito!',
+          message: 'Producto agregado al carrito correctamente',
+          buttons: [
+            {
+              text: 'Continuar',
+              role: 'cancel',
+              // cssClass: 'btn-continuar',
+              // handler: () => {
+              // }
+            },
+            {
+              text: 'Ir al carrito',
+              cssClass: 'btn-carrito',
+              handler: () => {
+                // this.router.navigate(['/cart'], {
+                //   state: { cartUpdated: true }
+                // });
+
+                this.router.navigate(['/cart']);
+              }
+            }
+          ],
+          cssClass: 'alerta-bonita'
+        });
+
+        await alert.present();
+        break;
+
+      case 2:
+        this.router.navigate(['/cart']);
+        break;
+
+      default:
+        break;
+    }
   }
 
   // Cerrar sesión

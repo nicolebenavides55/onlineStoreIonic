@@ -30,9 +30,29 @@ export class CartPage implements OnInit {
     this.loadCart();
   }
 
+  ionViewWillEnter() {
+    this.loadCart(); // cada vez que entres a la página
+  }
+
   async loadCart() {
     const session = await this.authService.getUserSession();
-    if (!session) return;
+
+    if (!session) {
+      const alert = await this.alertCtrl.create({
+        header: '¡Error!',
+        message: 'No se encontró una sesión activa. Por favor, inicia sesión nuevamente.',
+        buttons: [
+          {
+            text: 'Volver a iniciar sesión',
+            handler: () => {
+              this.router.navigate(['/login']); 
+            }
+          }
+        ],
+      });
+
+      await alert.present();
+    }
 
     this.userId = session?.idUser || 0;
 
@@ -82,18 +102,28 @@ export class CartPage implements OnInit {
     );
   }
 
-  removeItem(item: CartItem) {
+  // Eliminar producto
+  async removeItem(item: CartItem) {
     if (!item.id) return;
 
     this.cartService.removeFromCart(item.id).subscribe({
-      next: () => this.loadCart(),
+      next: async () => {
+        const alert = await this.alertCtrl.create({
+          header: 'Éxito',
+          message: 'Producto eliminado correctamente',
+          buttons: ['OK']
+        });
+        await alert.present();
+
+        this.loadCart();
+      },
       error: (err) => console.error('Error al eliminar:', err)
     });
   }
 
   updateQuantity(idCart: number, quantity: number) {
     this.cartService.updateCartQuantity(idCart, quantity).subscribe(() => {
-      this.loadCart();
+      // this.loadCart();
     });
   }
 

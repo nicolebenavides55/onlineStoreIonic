@@ -6,6 +6,10 @@
 
 <ion-content class="ion-padding">
 
+  <ion-button class="ion-margin-top login-btn" (click)="return()">
+    Vovler
+  </ion-button>
+
   <ion-list *ngIf="productsInCart.length > 0; else emptyCart">
     <ion-item *ngFor="let item of productsInCart; let i = index">
 
@@ -57,10 +61,6 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
-
-  <ion-button class="ion-margin-top login-btn" (click)="return()">
-    Vovler
-  </ion-button>
 
   <ng-template #emptyCart>
     <ion-text color="medium" class="ion-text-center">
