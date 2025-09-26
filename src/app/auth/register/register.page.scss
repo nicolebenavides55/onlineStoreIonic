@@ -34,21 +34,21 @@
 }
 
 /* Título */
-.login-form h1, .page-title {
+.login-form h1,
+.page-title {
     font-size: 2rem;
     margin-bottom: 0.8rem;
     font-weight: bold;
     color: var(--primary);
     margin-top: 0;
-    // text-align: center;
 }
 
 /* Subtítulo */
-.login-form p, .page-subtitle {
+.login-form p,
+.page-subtitle {
     font-size: 1rem;
     margin-bottom: 2rem;
     color: #555;
-    // text-align: center;
 }
 
 /* Inputs */
@@ -87,11 +87,15 @@ ion-button.login-btn {
     }
 
     .left {
-        height: 200px;
+        height: 100px;
         flex: none;
     }
 
     .right {
         align-items: flex-start;
+    }
+
+    .login-form {
+        width: 100%;
     }
 }

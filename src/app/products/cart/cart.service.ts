@@ -7,7 +7,7 @@ import { CartItem } from './cart.model';
   providedIn: 'root'
 })
 export class CartService {
-  private apiUrl = 'https://68d39c53214be68f8c667a49.mockapi.io/car';
+  private apiUrl = 'https://68d39c53214be68f8c667a49.mockapi.io/shoppingCart';
 
   constructor(private http: HttpClient) { }
 
@@ -28,7 +28,7 @@ export class CartService {
 
   // Eliminar un producto
   removeFromCart(itemId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/remove/${itemId}`);
+    return this.http.delete(`${this.apiUrl}/${itemId}`);
   }
 
   // Vaciar carrito de un usuario

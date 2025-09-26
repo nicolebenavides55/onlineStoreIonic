@@ -6,42 +6,69 @@
 
 <ion-content class="ion-padding">
 
-<ion-list *ngIf="productsInCart.length > 0; else emptyCart">
-  <ion-item *ngFor="let item of productsInCart; let i = index">
+  <ion-list *ngIf="productsInCart.length > 0; else emptyCart">
+    <ion-item *ngFor="let item of productsInCart; let i = index">
 
-    <!-- Imagen -->
-    <ion-thumbnail slot="start">
-      <img [src]="item.image" alt="{{ item.productName }}">
-    </ion-thumbnail>
+      <!-- Imagen -->
+      <ion-thumbnail slot="start">
+        <img [src]="item.image" alt="{{ item.productName }}">
+      </ion-thumbnail>
 
-    <!-- Nombre + Precio + Cantidad -->
-    <ion-label>
-      <h2>{{ item.productName }}</h2>
-      <p>{{ item.price | currency:'USD' }}</p>
+      <!-- Nombre + Precio + Cantidad -->
+      <ion-label>
+        <h2>{{ item.productName }}</h2>
+        <p>{{ item.price }}</p>
 
-      <ion-item lines="none">
-        <ion-label position="stacked">Cantidad</ion-label>
-        <ion-input 
-          type="number" 
-          [(ngModel)]="item.quantity" 
-          min="1" 
-          (ionChange)="updateTotal()">
-        </ion-input>
-      </ion-item>
-    </ion-label>
+        <ion-item lines="none">
+          <ion-label position="stacked">Cantidad</ion-label>
+          <ion-input type="number" [(ngModel)]="item.quantity" min="1" (ionChange)="updateTotal()"></ion-input>
+        </ion-item>
+      </ion-label>
 
-    <!-- Botón eliminar -->
-    <ion-button color="danger" fill="clear" (click)="removeItem(item)">
-      Eliminar
-    </ion-button>
+      <!-- Botón eliminar -->
+      <ion-button color="danger" fill="clear" (click)="removeItem(item)">
+        Eliminar
+      </ion-button>
 
-  </ion-item>
-</ion-list>
+    </ion-item>
+  </ion-list>
 
-<ng-template #emptyCart>
-  <ion-text color="medium" class="ion-text-center">
-    <p>El carrito está vacío.</p>
-  </ion-text>
-</ng-template>
+  <ion-content class="ion-padding">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Resumen</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <!-- Encabezado -->
+        <ion-item lines="none">
+          <ion-label>Producto</ion-label>
+          <ion-label>Subtotal</ion-label>
+        </ion-item>
+
+        <!-- Lista de productos con subtotales -->
+        <ion-item lines="none" *ngFor="let item of productsInCart">
+          <ion-label>{{ item.productName }}</ion-label>
+          <ion-label>{{ (item.price * item.quantity) | currency }}</ion-label>
+        </ion-item>
+
+        <!-- Total general -->
+        <ion-item lines="none">
+          <ion-label><strong>Total</strong></ion-label>
+          <ion-note slot="end">{{ total | currency }}</ion-note>
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+
+  </ion-content>
+
+  <ng-template #emptyCart>
+    <ion-text color="medium" class="ion-text-center">
+      <p>El carrito está vacío.</p>
+    </ion-text>
+  </ng-template>
 
 </ion-content>

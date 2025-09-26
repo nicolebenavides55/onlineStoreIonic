@@ -1,12 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-icon name="person-circle-outline" size="large"></ion-icon>
-      <ion-title>Bienvenido,</ion-title>
-      <!-- <ion-title>Bienvenido, {{ userName }}</ion-title> -->
+      <ion-icon slot="start" name="person-outline"></ion-icon>
+      <ion-title>Bienvenido{{ loggedUser?.fullName ? ', ' + loggedUser.fullName : '' }}</ion-title>
     </ion-buttons>
 
     <ion-buttons slot="end">
+      <ion-button (click)="showCart()">
+        <ion-icon name="cart-outline"></ion-icon>
+      </ion-button>
+
       <ion-button (click)="logout()">
         <ion-icon name="log-out-outline"></ion-icon>
       </ion-button>
@@ -15,63 +18,29 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
-  <!-- <ion-button expand="full" color="primary" (click)="addProduct()">
-    Agregar producto
-  </ion-button> -->
-
-  <ion-button expand="full" color="primary" (click)="showCart()">
-    Ver carrito
-  </ion-button>
-
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let product of products">
-        <ion-card>
-          <img [src]="product.image" alt="{{product.name}}">
-          <ion-card-header>
-            <ion-card-title>{{ product.name }}</ion-card-title>
-            <ion-card-subtitle>{{ product.price | currency:'USD' }}</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            {{ product.description }}
-          </ion-card-content>
-          <ion-button expand="full" color="primary" (click)="addToCart(product)">
-            Añadir al carrito
-          </ion-button>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-</ion-content>
-
-<!-- <ion-content class="ion-padding">
-
-  Buscador
-  <ion-searchbar 
-    [(ngModel)]="searchTerm" 
-    placeholder="Buscar producto..." 
-    show-clear-button="always">
+  <!-- Buscador -->
+  <ion-searchbar placeholder="Buscar producto" show-clear-button="always" [(ngModel)]="searchTerm"
+    (ionInput)="filterProducts()">
   </ion-searchbar>
 
-  Lista de productos
+  <!-- Lista de productos -->
   <ion-grid>
     <ion-row>
-      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let product of products">
-      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let product of products | filter:searchTerm">
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let item of filteredlistProducts">
         <ion-card>
-          <img [src]="product.image" alt="{{ product.name }}">
+          <img [src]="item.image" alt="{{item.name}}">
+          <ion-card-header>
+            <ion-card-title>{{ item.name }}</ion-card-title>
+            <ion-card-subtitle>{{ item.price }}</ion-card-subtitle>
+          </ion-card-header>
           <ion-card-content>
-            <h2>{{ product.name }}</h2>
-            <p>{{ product.price | currency:'USD' }}</p>
-            <ion-button fill="clear" size="small" color="primary" (click)="addToCart(product)">
-              <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+            <span>{{ item.description }}</span>
+            <ion-button expand="full" color="primary" (click)="addToCart(item)">
+              Añadir al carrito
             </ion-button>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-</ion-content> -->
+</ion-content>

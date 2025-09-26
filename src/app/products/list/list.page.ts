@@ -13,13 +13,13 @@ import { CartItem } from '../cart/cart.model';
   standalone: false,
 })
 export class ListPage implements OnInit {
-
-  products = [
-    { id: 1, name: 'Producto 1', description: 'Descripción del producto 1', price: 10.99, image: 'assets/product1.jpg' },
-    { id: 2, name: 'Producto 2', description: 'Descripción del producto 2', price: 20.50, image: 'assets/product2.jpg' },
-    { id: 3, name: 'Producto 3', description: 'Descripción del producto 3', price: 15.75, image: 'assets/product3.jpg' },
-    { id: 4, name: 'Producto 4', description: 'Descripción del producto 4', price: 8.99, image: 'assets/product4.jpg' },
-  ];
+  // Usuario logueado
+  loggedUser: any;
+  // Lista de productos
+  listProducts: any[] = [];
+  filteredlistProducts: any[] = [];
+  // Variable para el buscador
+  searchTerm: string = '';
 
   constructor(
     private router: Router,
@@ -30,28 +30,56 @@ export class ListPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getLoggedUser();
+    this.getListCars();
+  }
+
+  // Obtener usuario logueado
+  async getLoggedUser() {
+    const session = await this.authService.getUserSession();
+    this.loggedUser = session;
+    console.log('loggedUser', this.loggedUser)
+  }
+
+  // Filtrar la lista de productos (Nombre)
+  filterProducts() {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredlistProducts = this.listProducts.filter(product =>
+      product.name.toLowerCase().includes(term)
+    );
+  }
+
+  // Obtener la lista de productos 
+  getListCars() {
     this.productsService.getProducts().subscribe({
       next: (data) => {
-        console.log('Autos cargados:', data);
-        this.products = data; // 👈 asigna al array para mostrar en la vista
+        this.listProducts = data;
+        this.filteredlistProducts = [...this.listProducts];
+        console.log('listProducts', this.listProducts)
       },
       error: (err) => {
-        console.error('❌ Error al cargar autos', err);
+        console.error('Error:', err);
       }
     });
   }
 
+  // Añadir producto al carrito
   async addToCart(product: any) {
-    const session = await this.authService.getUserSession();
-    if (!session) {
-      console.error('No hay usuario logueado');
+    // Validar si hay usuario logueado
+    if (!this.loggedUser) {
+      const alert = await this.alertCtrl.create({
+        header: 'Error',
+        message: 'No hay usuario logueado',
+        buttons: ['OK']
+      });
+      await alert.present();
       return;
     }
 
-    const userId = session.idUser || 0 // MockAPI usa string para ID
+    const idUser = this.loggedUser.idUser || 0
 
-    // Primero obtenemos el carrito del usuario
-    this.cartService.getCart(userId).subscribe(async (cartItems) => {
+    // Obtener el carrito del usuario
+    this.cartService.getCart(idUser).subscribe(async (cartItems) => {
 
       // Convertir productId a string para evitar duplicados
       const productId = product.id.toString();
@@ -60,40 +88,32 @@ export class ListPage implements OnInit {
       const existingItem = cartItems.find(item => item.productId.toString() === productId);
 
       if (existingItem) {
-        // Si existe, actualizamos la cantidad usando PATCH
+        // Si existe, actualizamos la cantidad 
         const newQuantity = (existingItem.quantity || 1) + 1;
-        this.cartService.updateCartQuantity(existingItem.id!, newQuantity)
-          .subscribe(() => {
-            console.log(`Cantidad del producto "${product.name}" actualizada a ${newQuantity}`);
-
-            this.showCart();
-          });
-
+        this.cartService.updateCartQuantity(existingItem.id!, newQuantity).subscribe(() => {
+          this.showCart();
+        });
       } else {
         // Si no existe, agregamos un nuevo item
         const cartItem: CartItem = {
-          userId,
+          idUser,
           productId,
           quantity: 1
         };
 
-        this.cartService.addToCart(cartItem)
-          .subscribe(() => {
-            console.log(`Producto "${product.name}" agregado al carrito`);
-            this.showCart();
-          });
+        this.cartService.addToCart(cartItem).subscribe(() => {
+          this.showCart();
+        });
       }
     });
   }
 
+  // Ir al carrito
   showCart() {
     this.router.navigate(['/cart']);
   }
 
-  addProduct() {
-    // this.router.navigate(['/cart']);
-  }
-
+  // Cerrar sesión
   async logout() {
     const isValid = await this.authService.logout();
 

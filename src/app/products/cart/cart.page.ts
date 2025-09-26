@@ -61,18 +61,24 @@ export class CartPage implements OnInit {
 
       console.log('productsInCart', this.productsInCart)
 
-      // this.updateTotal();
+      this.updateTotal();
     });
   }
 
+  // Llamado cuando cambia la cantidad de un item
   updateTotal() {
-    // this.total = this.cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+    this.total = this.productsInCart.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
   }
 
   removeItem(item: CartItem) {
     if (!item.id) return;
-    this.cartService.removeFromCart(item.id).subscribe(() => {
-      this.loadCart();
+
+    this.cartService.removeFromCart(item.id).subscribe({
+      next: () => this.loadCart(),
+      error: (err) => console.error('Error al eliminar:', err)
     });
   }
 
